@@ -27,7 +27,15 @@ const getMovies = asyncHandler(async (req, res) => {
       ...(language && { language }),
       ...(rate && { rate }),
       ...(year && { year }),
-      ...(search && { name: { $regex: search, $options: "i" }}),
+      ...(search && {
+        $or: [
+          { name: { $regex: search, $options: "i" } },
+          { category: { $regex: search, $options: "i" } },
+          { language: { $regex: search, $options: "i" } }
+        ]
+      }),
+      // { category: { $regex: search, $options: "i" } },
+      // { language: { $regex: search, $options: "i" } }),
     };
 
     // load more movies functionality
@@ -223,7 +231,7 @@ const deleteMovie = asyncHandler(async (req, res) => {
     const movie = await Movie.findById(req.params.id);
     // if the movie is found delete it
     if (movie) {
-      await Movie.deleteOne({_id: movie._id});
+      await Movie.deleteOne({ _id: movie._id });
       res.json({ message: "Movie removed" });
     }
     // if the movie is not found send 404 error

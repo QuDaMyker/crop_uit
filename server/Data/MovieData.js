@@ -42,7 +42,7 @@ export const MoviesData = [
     image: "4.jpg",
     category: "Musicals",
     language: "English",
-    year: 2022,
+    year: 2023,
     time: 5,
     video: "",
     rate: 1,
